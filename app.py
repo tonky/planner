@@ -1,9 +1,9 @@
 from typing import List
-from collections import namedtuple
-import arrow  # type:ignore
+import arrow
 
 
-sprint = namedtuple('Sprint', ['start', 'end'])("2013-05-27", "2013-06-21")
+sprint_start = "2013-05-27"
+sprint_end = "2013-06-21"
 
 tonky = [("2013-05-28", "2013-06-04"), "2013-06-06"]
 oleg = ["2013-04-02", ("2013-06-03", "2013-06-18")]
@@ -13,7 +13,7 @@ print(tonky)
 print(oleg)
 
 
-def adays_range(start: str, end: str) -> arrow.Arrow.range:
+def adays_range(start: str, end: str) -> List[arrow.Arrow]:
     return arrow.Arrow.range('day', arrow.get(start), arrow.get(end))
 
 
@@ -36,7 +36,7 @@ def pp(value):
 def availability(start: str, end: str, vacation: list) -> int:
     total = 0
 
-    for aday in adays_range(arrow.get(start), arrow.get(end)):
+    for aday in adays_range(start, end):
         if aday.weekday() in [5, 6]:
             continue
 
@@ -59,10 +59,10 @@ def print_person(vacation: list, adays: List[arrow.Arrow]) -> int:
         else:
             pp(6)
 
-    print("\t%d" % availability(sprint.start, sprint.end, vacation))
+    print("\t%d" % availability(sprint_start, sprint_end, vacation))
 
 
-sprint_adays = adays_range(sprint.start, sprint.end)
+sprint_adays = adays_range(sprint_start, sprint_end)
 
 for day in sprint_adays:
     if day.weekday() in [5, 6]:
